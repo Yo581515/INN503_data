@@ -39,6 +39,7 @@ norwegian_projects_count_heurope = len(norwegian_projects_ids_heurope)
 print(f"Number of Norwegian projects in H2020: {norwegian_projects_count_h2020}")
 print(f"Number of Norwegian projects in Horizon Europe: {norwegian_projects_count_heurope}")
 
+# add "Time Period Analysis" here, befor printing like this
 
 # Assuming norwegian_projects_details_h2020 is your DataFrame
 for index, row in norwegian_projects_details_h2020.iterrows():
