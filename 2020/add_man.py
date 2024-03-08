@@ -66,13 +66,13 @@ for dic in list_of_dicts_heurope:
     print(dic)
     print()
 
-list_of_dicts_h2020_title_text_3d = "3D network graph of Horizon 2020 projects and countries",
-list_of_dicts_h2020_title_text_2d = '2D Network Graph of Horizon 2020 Projects and Countries'
+list_of_dicts_h2020_title_text_3d = "3D network graph of Horizon 2020 projects and countries colaborating with Norwegian organizations",
+list_of_dicts_h2020_title_text_2d = '2D Network Graph of Horizon 2020 Projects and Countries colaborating with Norwegian organizations'
 plot_3d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_3d)
 plot_2d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_2d)
 print()
 
-list_of_dicts_heurope_title_text_3d = "3D network graph of Horizon Europe projects and countries",
-list_of_dicts_heurope_title_text_2d = '2D Network Graph of Horizon Europe Projects and Countries'
+list_of_dicts_heurope_title_text_3d = "3D network graph of Horizon Europe projects and countries colaborating with Norwegian organizations",
+list_of_dicts_heurope_title_text_2d = '2D Network Graph of Horizon Europe Projects and Countries colaborating with Norwegian organizations'
 plot_3d(list_of_dicts_heurope, list_of_dicts_heurope_title_text_3d)
 plot_2d(list_of_dicts_heurope, list_of_dicts_heurope_title_text_2d)
