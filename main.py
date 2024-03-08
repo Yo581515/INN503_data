@@ -39,13 +39,9 @@ norwegian_projects_count_heurope = len(norwegian_projects_ids_heurope)
 print(f"Number of Norwegian projects in H2020: {norwegian_projects_count_h2020}")
 print(f"Number of Norwegian projects in Horizon Europe: {norwegian_projects_count_heurope}")
 
-'''pd.set_option('display.max_rows', None)
 
-# Increase the maximum width of each column to display full text
-pd.set_option('display.max_colwidth', 1000)
-
-# Increase the width of the display to fit the above settings
-pd.set_option('display.width', 1000)'''
+for index, row in norwegian_projects_details_h2020[['title']].iterrows():
+    print(f"{row['title']}\n")
 
 for index, row in norwegian_projects_details_h2020[['title']].iterrows():
     print(f"{row['title']}\n")
