@@ -40,9 +40,7 @@ print(f"Number of Norwegian projects in H2020: {norwegian_projects_count_h2020}"
 print(f"Number of Norwegian projects in Horizon Europe: {norwegian_projects_count_heurope}")
 
 
-for index, row in norwegian_projects_details_h2020[['title']].iterrows():
-    print(f"{row['title']}\n")
-
-for index, row in norwegian_projects_details_h2020[['title']].iterrows():
-    print(f"{row['title']}\n")
+# Assuming norwegian_projects_details_h2020 is your DataFrame
+for index, row in norwegian_projects_details_h2020.iterrows():
+    print(f"ID: {row['id']}\nTitle: {row['title']}\nStart Date: {row['startDate']}\nEnd Date: {row['endDate']}\nTotal Cost: {row['totalCost']}\nContent Update Date: {row['contentUpdateDate']}\n\n")
 
