@@ -1,0 +1,120 @@
+import plotly.graph_objects as go
+
+
+def plot_3d(list_of_dicts, title_text=""):
+    # Initialize the graph
+    G = nx.Graph()
+
+    # Generate a broader range of distinct colors
+    all_colors = list(mcolors.CSS4_COLORS.values())
+    num_projects = len(list_of_dicts)  # Adjust based on the number of unique projects
+    selected_colors = all_colors[:num_projects]
+
+    # Map each project to a unique color in RGBA format acceptable by Plotly
+    colors = {project: plt.cm.viridis(i / len(list_of_dicts)) for i, dict_item in enumerate(list_of_dicts)
+              for project in dict_item}
+    edge_color = [f'rgba({int(col[0] * 255)},{int(col[1] * 255)},{int(col[2] * 255)},{col[3]})' for col in
+                  colors.values()]
+
+    # Add edges and nodes from list_of_dicts with color information
+    for project_dict in list_of_dicts:
+        for project, countries in project_dict.items():
+            for country in countries:
+                G.add_node(country, type='country')
+            for i, country in enumerate(countries):
+                for j in range(i + 1, len(countries)):
+                    G.add_edge(countries[i], countries[j], color=colors[project], project=project)
+
+    # Position nodes using the spring layout
+    pos = nx.spring_layout(G, dim=3, seed=42)
+
+    # Extract node positions
+    node_x = [pos[node][0] for node in G]
+    node_y = [pos[node][1] for node in G]
+    node_z = [pos[node][2] for node in G]
+
+    # Extract edges and their colors for Plotly
+    edge_x, edge_y, edge_z = [], [], []
+    for edge in G.edges(data=True):
+        x0, y0, z0 = pos[edge[0]]
+        x1, y1, z1 = pos[edge[1]]
+        edge_x.extend([x0, x1, None])
+        edge_y.extend([y0, y1, None])
+        edge_z.extend([z0, z1, None])
+
+    # Initialize your figure
+    fig = go.Figure()
+
+    # Add nodes as scatter3d traces
+    fig.add_trace(go.Scatter3d(
+        x=node_x, y=node_y, z=node_z,
+        mode='markers',
+        marker=dict(size=10, color='black', line=dict(color='rgba(50,50,50,0.14)', width=0.5)),
+        text=list(G.nodes),
+        hoverinfo='text'
+    ))
+
+    # Add edges as scatter3d traces directly, avoiding indirect index access
+    for edge in G.edges(data=True):
+        x0, y0, z0 = pos[edge[0]]
+        x1, y1, z1 = pos[edge[1]]
+        color = f"rgba({int(edge[2]['color'][0] * 255)}, {int(edge[2]['color'][1] * 255)}, {int(edge[2]['color'][2] * 255)}, {edge[2]['color'][3]})"
+        fig.add_trace(go.Scatter3d(
+            x=[x0, x1, None], y=[y0, y1, None], z=[z0, z1, None],
+            mode='lines',
+            line=dict(color=color, width=2),
+            hoverinfo='none'
+        ))
+
+    # Configure and display the figure as before
+    fig.update_layout(
+        title_text=str(title_text),
+        showlegend=False,
+        scene=dict(
+            xaxis=dict(showbackground=False, showticklabels=False, title=''),
+            yaxis=dict(showbackground=False, showticklabels=False, title=''),
+            zaxis=dict(showbackground=False, showticklabels=False, title='')
+        )
+    )
+
+    fig.show()
+
+
+import matplotlib.pyplot as plt
+import networkx as nx
+import matplotlib.colors as mcolors
+
+
+def plot_2d(list_of_dicts, title_text=""):
+    # Initialize the graph
+    G = nx.Graph()
+
+    # Generate colors for each project
+    num_projects = len(list_of_dicts)
+    color_map = plt.cm.get_cmap('viridis', num_projects)
+    project_colors = {project: color_map(i) for i, dict_item in enumerate(list_of_dicts) for project in dict_item}
+
+    # Add edges and nodes with color information
+    for project_dict in list_of_dicts:
+        for project, countries in project_dict.items():
+            G.add_edges_from(
+                [(countries[i], countries[j]) for i in range(len(countries)) for j in range(i + 1, len(countries))],
+                color=project_colors[project])
+
+    # Position nodes using the spring layout
+    pos = nx.spring_layout(G)
+
+    # Draw nodes
+    nx.draw_networkx_nodes(G, pos, node_size=100, node_color='skyblue')
+
+    # Draw edges with colors
+    edges = G.edges(data=True)
+    colored_edges = [edge[2]['color'] for edge in edges]
+    nx.draw_networkx_edges(G, pos, edges, edge_color=colored_edges)
+
+    # Draw labels
+    nx.draw_networkx_labels(G, pos)
+
+    plt.title(str(title_text))
+    plt.axis('off')  # Turn off the axis for a cleaner look
+    plt.show()
