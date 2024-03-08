@@ -1,4 +1,6 @@
+import pandas as pd
 import plotly.graph_objects as go
+from vars import country_names
 
 
 def plot_3d(list_of_dicts, title_text=""):
@@ -117,4 +119,45 @@ def plot_2d(list_of_dicts, title_text=""):
 
     plt.title(str(title_text))
     plt.axis('off')  # Turn off the axis for a cleaner look
+    plt.show()
+
+
+def count_projects_per_year(projects, organizations):
+    # Merge projects and organizations datasets
+    merged_data = pd.merge(projects, organizations, left_on='id', right_on='projectID')
+
+    # Convert 'startDate' to datetime and extract the year
+    merged_data['Year'] = pd.to_datetime(merged_data['startDate'], errors='coerce').dt.year
+
+    # Map country codes to country names using 'country_names' dictionary
+    merged_data['Country'] = merged_data['country'].map(country_names)
+
+    # Group by Country and Year, counting unique project IDs
+    grouped_data = merged_data.groupby(['Country', 'Year']).agg(NumberOfProjects=('projectID', 'nunique')).reset_index()
+
+    # Transform grouped data into the desired format
+    countries_projects = {}
+    for _, row in grouped_data.iterrows():
+        if row['Country'] not in countries_projects:
+            countries_projects[row['Country']] = {}
+        countries_projects[row['Country']][row['Year']] = row['NumberOfProjects']
+
+    return countries_projects
+
+def plot_number_of_projects_per_year(countries_projects, list_of_countries):
+    plt.figure(figsize=(10, 6))
+
+    for country in list_of_countries:
+        if country in countries_projects:
+            years = sorted(countries_projects[country].keys())
+            num_projects = [countries_projects[country][year] for year in years]
+            plt.plot(years, num_projects, marker='o', linestyle='-', label=country)
+
+    plt.title('Number of Projects per Year')
+    plt.xlabel('Year')
+    plt.ylabel('Number of Projects')
+    plt.legend(title="Country")
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
     plt.show()
