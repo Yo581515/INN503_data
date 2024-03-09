@@ -118,3 +118,12 @@ closed_projects_df['endDate'] = closed_projects_df['endDate'].dt.strftime('%Y-%m
 closed_projects_df.to_excel("closed_projects.xlsx", index=False)
 
 print("Closed projects have been saved to 'closed_projects.xlsx' with stringified dates.")
+
+
+signed_projects_df = df_projects[df_projects['id'].isin(list_signed_projects)].copy()
+# Stringify 'startDate' and 'endDate' columns with a specific format, e.g., YYYY-MM-DD
+signed_projects_df['startDate'] = signed_projects_df['startDate'].dt.strftime('%Y-%m-%d')
+signed_projects_df['endDate'] = signed_projects_df['endDate'].dt.strftime('%Y-%m-%d')
+signed_projects_df.to_excel("signed_projects.xlsx", index=False)
+print("Signed projects have been saved to 'signed_projects.xlsx' with stringified dates.")
+
