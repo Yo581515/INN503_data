@@ -161,3 +161,36 @@ def plot_number_of_projects_per_year(countries_projects, list_of_countries):
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
+
+
+def plot_ec_contribution_for_year(df_org, year, from_=""):
+    activity_type_mapping = {
+        'REC': 'Research',
+        'OTH': 'Other',
+        'PRC': 'Private Company',
+        'HES': 'Higher Education',
+        'PUB': 'Public Sector'
+    }
+
+    df_org['OrgType'] = df_org['activityType'].map(activity_type_mapping)
+    # Assuming df_orgs_h2020 is your DataFrame
+    # 1. Classify organizations
+    df_org['OrgType'] = df_org['activityType'].map(activity_type_mapping)
+
+    # 2. Aggregate data yearly
+    df_org['Year'] = pd.to_datetime(df_org['contentUpdateDate']).dt.year
+    yearly_data = df_org.groupby(['Year', 'OrgType']).agg({
+        'ecContribution': ['mean', 'std', 'sum'],
+        'projectID': 'nunique'
+    }).reset_index()
+
+    # 3. Descriptive statistics
+    print(yearly_data)
+
+    # 4. Visualizations 2022
+    # For example, a pie chart of organizations types in a given year
+    year_filter = yearly_data['Year'] == year
+    data = yearly_data[year_filter]
+    plt.pie(data['ecContribution']['sum'], labels=data['OrgType'], autopct='%1.1f%%')
+    plt.title(f'Share of EC Contribution received by different types of organizations in the year {year} from {from_}')
+    plt.show()
