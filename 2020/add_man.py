@@ -104,6 +104,7 @@ plot_number_of_projects_per_year(countries_projects_h2020, list_of_countries)
 #
 #
 
+
 # ec_contribution for Horizon 2020
 plot_ec_contribution_for_year(df_orgs_h2020, 2021, "Horizon 2020")
 plot_ec_contribution_for_year(df_orgs_h2020, 2022, "Horizon 2020")
