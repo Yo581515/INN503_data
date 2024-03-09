@@ -27,6 +27,16 @@ filtered_orgs_h2020 = df_orgs[df_orgs['projectID'].isin(unique_projectID_h2020)]
 df_projects = filtered_projects_h2020
 df_orgs = filtered_orgs_h2020
 
+# Number of organizations involved in projects concluded vs ongoing
+df_projects['status'] = df_projects['status'].str.lower()
+closed_projects = df_projects[df_projects['status'] == 'closed']
+signed_projects = df_projects[df_projects['status'] == 'signed']
+orgs_in_concluded_projects = df_orgs[df_orgs['projectID'].isin(closed_projects['id'])].groupby(
+    'projectID').size().sum()
+orgs_in_ongoing_projects = df_orgs[df_orgs['projectID'].isin(signed_projects['id'])].groupby('projectID').size().sum()
+
+orgs_in_concluded_projects, orgs_in_ongoing_projects
+
 #
 #
 #
@@ -52,28 +62,18 @@ types_per_project_renamed = types_per_project.rename(columns=activity_type_mappi
 # Counting organizations per country
 orgs_per_country = df_orgs.groupby('country').size()
 orgs_per_country_named = orgs_per_country.rename(index=country_names).copy()
-project_id_to_acronym = df_projects.set_index('id')['acronym'].to_dict()
+project_id_to_acronym = df_projects.set_index('id')['acronym'].to_dict().copy()
 
 # Replace the index of types_per_project_renamed with project acronyms
-types_per_project_renamed.index = types_per_project_renamed.index.map(project_id_to_acronym)
+types_per_project_renamed.index = types_per_project_renamed.index.map(project_id_to_acronym).copy()
 
 orgs_per_country_named.head()
 # Preparing data for potential diagrams or charts
 # Number of projects per year
-projects_per_year = df_projects.groupby('year').size()
-
-# Number of organizations involved in projects concluded vs ongoing
-df_projects['status'] = df_projects['status'].str.lower()
-concluded_projects = df_projects[df_projects['status'] == 'concluded']
-ongoing_projects = df_projects[df_projects['status'] != 'concluded']
-orgs_in_concluded_projects = df_orgs[df_orgs['projectID'].isin(concluded_projects['id'])].groupby(
-    'projectID').size().sum()
-orgs_in_ongoing_projects = df_orgs[df_orgs['projectID'].isin(ongoing_projects['id'])].groupby('projectID').size().sum()
-
-orgs_in_concluded_projects, orgs_in_ongoing_projects
+projects_per_year = df_projects.groupby('year').size().copy()
 
 print(orgs_per_country_named.head())
-plot_histogramh(orgs_per_country_named, title_text="Number of Organizations per Country",
+plot_histogramh(orgs_per_country_named, title_text="Number of Organizations per Country ",
                 xlabel="Number of Organizations", ylabel="Country")
 print()
 print(orgs_per_project.head())
@@ -87,7 +87,7 @@ print(types_per_project_renamed.head())
 types_per_project_renamed.plot(kind='bar', stacked=True, figsize=(12, 8),
                                color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd'])
 plt.title('Organization Types per Project')
-plt.xlabel('Project ID')
+plt.xlabel('Project')
 plt.ylabel('Number of Organizations')
 plt.legend(title='Activity Type')
 plt.tight_layout()
@@ -98,6 +98,11 @@ print()
 print()
 print(projects_per_year)
 plot_histogram(projects_per_year, title_text="Number of Projects per Year", xlabel="Number of Projects", ylabel="Year")
-
-print("HM")
-print(orgs_in_ongoing_projects)
+print()
+print("closed projects")
+list_closed_projects = closed_projects['id'].tolist()
+print(list_closed_projects)
+print()
+print("signed projects")
+list_signed_projects = signed_projects['id'].tolist()
+print(list_signed_projects)
