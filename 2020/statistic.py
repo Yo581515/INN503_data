@@ -106,3 +106,15 @@ print()
 print("signed projects")
 list_signed_projects = signed_projects['id'].tolist()
 print(list_signed_projects)
+
+# Assuming list_closed_projects contains the IDs of closed projects
+closed_projects_df = df_projects[df_projects['id'].isin(list_closed_projects)].copy()
+
+# Stringify 'startDate' and 'endDate' columns with a specific format, e.g., YYYY-MM-DD
+closed_projects_df['startDate'] = closed_projects_df['startDate'].dt.strftime('%Y-%m-%d')
+closed_projects_df['endDate'] = closed_projects_df['endDate'].dt.strftime('%Y-%m-%d')
+
+# Now, save the updated DataFrame to an Excel file
+closed_projects_df.to_excel("closed_projects.xlsx", index=False)
+
+print("Closed projects have been saved to 'closed_projects.xlsx' with stringified dates.")
