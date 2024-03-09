@@ -1,0 +1,50 @@
+
+'''print("Unique acronyms for Horizon 2020 involving Norwegian organizations:")
+print(unique_projectID_h2020)
+print()
+grouped_h2020 = filtered_orgs_h2020.groupby('projectID')['country'].unique().reset_index()
+# Convert to a list of dictionaries
+list_of_dicts_h2020 = [{row['projectID']: row['country'].tolist()} for _, row in grouped_h2020.iterrows()]
+
+for project_dict in list_of_dicts_h2020:
+    for project, countries in project_dict.items():
+        project_dict[project] = [country_names.get(country, country) for country in countries]
+
+print("Horizon 2020:")
+for dic in list_of_dicts_h2020:
+    print(dic)
+    print()
+'''
+
+def project_funds_each_year(df_projects, df_orgs):
+    # Create a dictionary to hold the sum of ecContribution by projectID and year
+    funds_by_project_and_year = {}
+
+    for index, project in df_projects.iterrows():
+        project_id = project['id']
+        start_year = project['startDate'].year
+        end_year = project['endDate'].year
+
+        # Filter organization data for the current project
+        orgs_for_project = df_orgs[df_orgs['projectID'] == project_id]
+
+        # Initialize a dictionary to hold the sum of ecContribution for each year of the project's duration
+        yearly_funds = {}
+
+        for year in range(start_year, end_year + 1):
+            # Sum ecContribution for the project in the specific year
+            # Since the dataset does not specify the exact distribution of funds per year, we'll sum all contributions
+            total_funds = orgs_for_project['ecContribution'].sum()
+
+            # Divide total funds evenly among the years of the project's duration
+            yearly_funds[year] = total_funds / (end_year - start_year + 1)
+
+        funds_by_project_and_year[project_id] = yearly_funds
+
+    # Since the resulting output may be large, let's display the structure for one project to ensure correctness
+    sample_project_id = next(iter(funds_by_project_and_year.keys()))
+    funds_by_project_and_year[sample_project_id]
+    return funds_by_project_and_year
+
+
+

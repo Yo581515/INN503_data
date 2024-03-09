@@ -1,5 +1,5 @@
 import pandas as pd
-from ploter import plot_3d, plot_2d, count_projects_per_year, plot_number_of_projects_per_year, \
+from add_man_ploter import plot_3d, plot_2d, count_projects_per_year, plot_number_of_projects_per_year, \
     plot_ec_contribution_for_year
 from vars import country_names
 import matplotlib.pyplot as plt
@@ -35,10 +35,11 @@ print("Unique acronyms for Horizon Europe involving Norwegian organizations:")
 print(unique_acronyms_heurope)
 print()
 
-#
-#
-#
 
+#
+#
+#
+# relation graph
 # For Horizon 2020
 # Group by 'projectAcronym' and aggregate unique 'country' values
 grouped_h2020 = filtered_orgs_h2020.groupby('projectAcronym')['country'].unique().reset_index()
@@ -79,7 +80,7 @@ print()
 
 list_of_dicts_h2020_title_text_3d = "3D network graph of Horizon 2020 projects and countries colaborating with Norwegian organizations",
 list_of_dicts_h2020_title_text_2d = '2D Network Graph of Horizon 2020 Projects and Countries colaborating with Norwegian organizations'
-# plot_3d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_3d)
+plot_3d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_3d)
 # plot_2d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_2d)
 print()
 
@@ -105,7 +106,7 @@ list_of_countries = ["Norway", "United Kingdom", "Spain"]
 
 # ec_contribution for Horizon 2020
 #plot_ec_contribution_for_year(df_orgs_h2020, 2021, "Horizon 2020")
-#plot_ec_contribution_for_year(df_orgs_h2020, 2022, "Horizon 2020")
+plot_ec_contribution_for_year(df_orgs_h2020, 2022, "Horizon 2020")
 #plot_ec_contribution_for_year(df_orgs_h2020, 2023, "Horizon 2020")
 
 # ec_contribution for Horizon Europe

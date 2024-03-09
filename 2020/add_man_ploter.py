@@ -49,11 +49,13 @@ def plot_3d(list_of_dicts, title_text=""):
 
     # Add nodes as scatter3d traces
     fig.add_trace(go.Scatter3d(
-        x=node_x, y=node_y, z=node_z,
-        mode='markers',
+        x=node_x,
+        y=node_y,
+        z=node_z,
+        mode='markers+text',  # Ensure 'text' is part of the mode if you want labels visible without hover
         marker=dict(size=10, color='black', line=dict(color='rgba(50,50,50,0.14)', width=0.5)),
-        text=list(G.nodes),
-        hoverinfo='text'
+        text=list(G.nodes),  # Ensure this list contains the node names you want to display
+        hoverinfo='text'  # This ensures the text appears when hovering over the node
     ))
 
     # Add edges as scatter3d traces directly, avoiding indirect index access
