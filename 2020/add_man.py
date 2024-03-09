@@ -81,13 +81,13 @@ print()
 list_of_dicts_h2020_title_text_3d = "3D network graph of Horizon 2020 projects and countries colaborating with Norwegian organizations",
 list_of_dicts_h2020_title_text_2d = '2D Network Graph of Horizon 2020 Projects and Countries colaborating with Norwegian organizations'
 plot_3d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_3d)
-# plot_2d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_2d)
+plot_2d(list_of_dicts_h2020, list_of_dicts_h2020_title_text_2d)
 print()
 
-# list_of_dicts_heurope_title_text_3d = "3D network graph of Horizon Europe projects and countries colaborating with Norwegian organizations",
-# list_of_dicts_heurope_title_text_2d = '2D Network Graph of Horizon Europe Projects and Countries colaborating with Norwegian organizations'
-# plot_3d(list_of_dicts_heurope, list_of_dicts_heurope_title_text_3d)
-# plot_2d(list_of_dicts_heurope, list_of_dicts_heurope_title_text_2d)
+list_of_dicts_heurope_title_text_3d = "3D network graph of Horizon Europe projects and countries colaborating with Norwegian organizations",
+list_of_dicts_heurope_title_text_2d = '2D Network Graph of Horizon Europe Projects and Countries colaborating with Norwegian organizations'
+plot_3d(list_of_dicts_heurope, list_of_dicts_heurope_title_text_3d)
+plot_2d(list_of_dicts_heurope, list_of_dicts_heurope_title_text_2d)
 
 
 # Number of Projects per Year
@@ -96,18 +96,18 @@ for country, projects in countries_projects_h2020.items():
     print(country)
     print(projects)
     print()
-list_of_countries = ["Norway", "United Kingdom", "Spain"]
+list_of_countries = ["Norway", "United Kingdom", "Spain", "Belgium","United States", "Germany", "Italy", "France", "Sweden", "Greece"]
 # Call the function with the data for Horizon 2020
-# plot_number_of_projects_per_year(countries_projects_h2020, list_of_countries)
+plot_number_of_projects_per_year(countries_projects_h2020, list_of_countries)
 
 #
 #
 #
 
 # ec_contribution for Horizon 2020
-#plot_ec_contribution_for_year(df_orgs_h2020, 2021, "Horizon 2020")
+plot_ec_contribution_for_year(df_orgs_h2020, 2021, "Horizon 2020")
 plot_ec_contribution_for_year(df_orgs_h2020, 2022, "Horizon 2020")
-#plot_ec_contribution_for_year(df_orgs_h2020, 2023, "Horizon 2020")
+plot_ec_contribution_for_year(df_orgs_h2020, 2023, "Horizon 2020")
 
 # ec_contribution for Horizon Europe
 #plot_ec_contribution_for_year(df_orgs_heurope, 2022, "Horizon Europe")
