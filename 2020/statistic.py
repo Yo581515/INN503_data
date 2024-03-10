@@ -102,28 +102,28 @@ print()
 print("closed projects")
 list_closed_projects = closed_projects['id'].tolist()
 print(list_closed_projects)
+list_closed_projects_len = len(list_closed_projects)
+print(list_closed_projects_len)
 print()
 print("signed projects")
 list_signed_projects = signed_projects['id'].tolist()
 print(list_signed_projects)
-
-# Assuming list_closed_projects contains the IDs of closed projects
-closed_projects_df = df_projects[df_projects['id'].isin(list_closed_projects)].copy()
-
-# Stringify 'startDate' and 'endDate' columns with a specific format, e.g., YYYY-MM-DD
-closed_projects_df['startDate'] = closed_projects_df['startDate'].dt.strftime('%Y-%m-%d')
-closed_projects_df['endDate'] = closed_projects_df['endDate'].dt.strftime('%Y-%m-%d')
-
-# Now, save the updated DataFrame to an Excel file
-closed_projects_df.to_excel("closed_projects.xlsx", index=False)
-
-print("Closed projects have been saved to 'closed_projects.xlsx' with stringified dates.")
+list_signed_projects_len = len(list_signed_projects)
+print(list_signed_projects_len)
 
 
-signed_projects_df = df_projects[df_projects['id'].isin(list_signed_projects)].copy()
-# Stringify 'startDate' and 'endDate' columns with a specific format, e.g., YYYY-MM-DD
-signed_projects_df['startDate'] = signed_projects_df['startDate'].dt.strftime('%Y-%m-%d')
-signed_projects_df['endDate'] = signed_projects_df['endDate'].dt.strftime('%Y-%m-%d')
-signed_projects_df.to_excel("signed_projects.xlsx", index=False)
-print("Signed projects have been saved to 'signed_projects.xlsx' with stringified dates.")
+
+
+# Data to plot
+statuses = ['CLOSED', 'SIGNED/ONGOING']
+values = [list_closed_projects_len, list_signed_projects_len]
+
+# Create the histogram
+plt.figure(figsize=(8, 6))
+plt.bar(statuses, values, color=['#1f77b4', '#ff7f0e'])
+plt.title('Distribution of Project Statuses in Additive Manufacturing for Horizon 2020\n with Norwegian organizations')
+plt.xlabel('Status')
+plt.ylabel('Number of Projects')
+plt.show()
+
 

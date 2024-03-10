@@ -27,3 +27,4 @@ def plot_histogram(series, title_text="",xlabel="",ylabel=""):
     plt.gca().tick_params(axis='y', labelsize='small')  # 'small' is an example size
 
     plt.show()
+
