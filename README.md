@@ -1,4 +1,4 @@
-code for data anylysis and visualization for project in INN503
+code for data analysis and visualization for project in INN503
 
 to see results:
 
